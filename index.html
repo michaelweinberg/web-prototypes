@@ -1,0 +1,839 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serene Salon | Luxury Hair &amp; Beauty</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e9e4dd;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #9a796e;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .time-slot {
+            transition: all 0.2s ease;
+        }
+        .time-slot:hover:not(.booked) {
+            background-color: #d1cfc4;
+            border-color: #9a796e;
+        }
+        .time-slot.selected {
+            background-color: #9a796e;
+            color: white;
+            border-color: #9a796e;
+        }
+        .time-slot.booked {
+            background-color: #adaea4;
+            color: #e9e4dd;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Montserrat, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.-left-4{left:-1rem}.-top-4{top:-1rem}.right-3{right:0.75rem}.top-2{top:0.5rem}.z-50{z-index:50}.mx-2{margin-left:0.5rem;margin-right:0.5rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-2{margin-left:0.5rem}.mr-4{margin-right:1rem}.mt-10{margin-top:2.5rem}.mt-12{margin-top:3rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-16{height:4rem}.h-4{height:1rem}.h-48{height:12rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-full{height:100%}.w-1{width:0.25rem}.w-12{width:3rem}.w-16{width:4rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-md{max-width:28rem}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.space-x-1 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.25rem * var(--tw-space-x-reverse));margin-left:calc(0.25rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-8 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-l{border-top-left-radius:0.25rem;border-bottom-left-radius:0.25rem}.rounded-r{border-top-right-radius:0.25rem;border-bottom-right-radius:0.25rem}.border{border-width:1px}.border-2{border-width:2px}.border-t{border-top-width:1px}.border-cream{--tw-border-opacity:1;border-color:rgb(233 228 221 / var(--tw-border-opacity, 1))}.border-mocha{--tw-border-opacity:1;border-color:rgb(154 121 110 / var(--tw-border-opacity, 1))}.border-stone{--tw-border-opacity:1;border-color:rgb(209 207 196 / var(--tw-border-opacity, 1))}.border-opacity-20{--tw-border-opacity:0.2}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-cream{--tw-bg-opacity:1;background-color:rgb(233 228 221 / var(--tw-bg-opacity, 1))}.bg-mocha{--tw-bg-opacity:1;background-color:rgb(154 121 110 / var(--tw-bg-opacity, 1))}.bg-sand{--tw-bg-opacity:1;background-color:rgb(235 226 213 / var(--tw-bg-opacity, 1))}.bg-stone{--tw-bg-opacity:1;background-color:rgb(209 207 196 / var(--tw-bg-opacity, 1))}.bg-taupe{--tw-bg-opacity:1;background-color:rgb(218 211 194 / var(--tw-bg-opacity, 1))}.bg-teal{--tw-bg-opacity:1;background-color:rgb(69 89 89 / var(--tw-bg-opacity, 1))}.bg-opacity-50{--tw-bg-opacity:0.5}.p-2{padding:0.5rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pt-3{padding-top:0.75rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.font-serif{font-family:Cormorant Garamond, serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-light{font-weight:300}.font-medium{font-weight:500}.font-semibold{font-weight:600}.italic{font-style:italic}.text-cream{--tw-text-opacity:1;color:rgb(233 228 221 / var(--tw-text-opacity, 1))}.text-mocha{--tw-text-opacity:1;color:rgb(154 121 110 / var(--tw-text-opacity, 1))}.text-olive{--tw-text-opacity:1;color:rgb(91 92 85 / var(--tw-text-opacity, 1))}.text-teal{--tw-text-opacity:1;color:rgb(69 89 89 / var(--tw-text-opacity, 1))}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-mocha:hover{--tw-bg-opacity:1;background-color:rgb(154 121 110 / var(--tw-bg-opacity, 1))}.hover\:bg-sand:hover{--tw-bg-opacity:1;background-color:rgb(235 226 213 / var(--tw-bg-opacity, 1))}.hover\:bg-opacity-90:hover{--tw-bg-opacity:0.9}.hover\:text-cream:hover{--tw-text-opacity:1;color:rgb(233 228 221 / var(--tw-text-opacity, 1))}.hover\:text-mocha:hover{--tw-text-opacity:1;color:rgb(154 121 110 / var(--tw-text-opacity, 1))}.hover\:text-sand:hover{--tw-text-opacity:1;color:rgb(235 226 213 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-1:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-mocha:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(154 121 110 / var(--tw-ring-opacity, 1))}@media (min-width: 768px){.md\:col-span-2{grid-column:span 2 / span 2}.md\:mb-0{margin-bottom:0px}.md\:flex{display:flex}.md\:hidden{display:none}.md\:w-1\/2{width:50%}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:text-6xl{font-size:3.75rem;line-height:1}}@media (min-width: 1024px){.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
+<body>
+    <!-- Header -->
+    <header class="bg-cream shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-3xl font-semibold text-teal">Serene</h1>
+                    <div class="w-1 h-6 bg-mocha mx-2"></div>
+                    <p class="text-olive italic font-serif">Hair &amp; Beauty</p>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link active text-olive hover:text-mocha transition-colors" onclick="showPage('home')">Home</a>
+                    <a href="#" class="nav-link text-olive hover:text-mocha transition-colors" onclick="showPage('products')">Products</a>
+                    <a href="#" class="nav-link text-olive hover:text-mocha transition-colors" onclick="showPage('booking')">Book Now</a>
+                    <a href="#" class="nav-link text-olive hover:text-mocha transition-colors" onclick="showPage('checkout')">Checkout</a>
+                </nav>
+                <button class="md:hidden text-olive hover:text-mocha">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="bg-sand py-20">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-10 md:mb-0">
+                        <h2 class="text-5xl md:text-6xl font-serif font-light text-teal mb-6">Discover your most beautiful self</h2>
+                        <p class="text-olive text-lg mb-8">Experience luxury hair and beauty treatments in our tranquil salon environment. Our expert stylists are dedicated to enhancing your natural beauty.</p>
+                        <button class="bg-mocha text-cream px-8 py-3 rounded hover:bg-opacity-90 transition-colors font-lucky-bones" onclick="showPage('booking')">Book Appointment</button>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="absolute -top-4 -left-4 w-full h-full border-2 border-mocha rounded-lg"></div>
+                            <div class="bg-stone rounded-lg overflow-hidden">
+                                <svg class="w-full" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="400" height="500" fill="#d1cfc4"></rect>
+                                    <path d="M200,100 C260,100 300,150 300,200 C300,250 260,300 200,300 C140,300 100,250 100,200 C100,150 140,100 200,100 Z" fill="#9a796e" opacity="0.2"></path>
+                                    <path d="M150,150 C180,130 220,130 250,150 C280,170 290,210 270,240 C250,270 210,280 180,260 C150,240 140,200 160,170 Z" fill="#b9ad9e" opacity="0.3"></path>
+                                    <path d="M180,350 C200,330 220,330 240,350 C260,370 260,400 240,420 C220,440 200,440 180,420 C160,400 160,370 180,350 Z" fill="#455959" opacity="0.2"></path>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <p class="text-teal text-xl font-serif italic">Salon Image</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Preview -->
+        <section class="py-16 bg-cream">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-serif text-teal text-center mb-12">Our Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-card bg-sand rounded-lg overflow-hidden shadow-md">
+                        <div class="h-48 bg-taupe flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif text-olive mb-2">Hair Styling</h3>
+                            <p class="text-olive mb-4">From cuts to color, our expert stylists will transform your look with precision and care.</p>
+                            <p class="text-mocha font-medium">Starting at $45</p>
+                        </div>
+                    </div>
+                    <div class="service-card bg-sand rounded-lg overflow-hidden shadow-md">
+                        <div class="h-48 bg-taupe flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif text-olive mb-2">Facial Treatments</h3>
+                            <p class="text-olive mb-4">Rejuvenate your skin with our luxurious facials tailored to your skin type.</p>
+                            <p class="text-mocha font-medium">Starting at $65</p>
+                        </div>
+                    </div>
+                    <div class="service-card bg-sand rounded-lg overflow-hidden shadow-md">
+                        <div class="h-48 bg-taupe flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path>
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif text-olive mb-2">Nail Services</h3>
+                            <p class="text-olive mb-4">Pamper your hands and feet with our range of manicure and pedicure options.</p>
+                            <p class="text-mocha font-medium">Starting at $35</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                    <button class="border-2 border-mocha text-mocha px-8 py-3 rounded hover:bg-mocha hover:text-cream transition-colors font-lucky-bones" onclick="showPage('products')">View All Services</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-16 bg-taupe">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-serif text-teal text-center mb-12">What Our Clients Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-cream p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-stone flex items-center justify-center mr-4">
+                                <span class="text-mocha font-lucky-bones text-xl">S</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-olive">Sarah Johnson</h4>
+                                <div class="flex text-mocha">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-olive italic">"The best salon experience I've ever had. My stylist really listened to what I wanted and delivered beyond my expectations. The atmosphere is so relaxing too!"</p>
+                    </div>
+                    <div class="bg-cream p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-stone flex items-center justify-center mr-4">
+                                <span class="text-mocha font-lucky-bones text-xl">M</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-olive">Michael Chen</h4>
+                                <div class="flex text-mocha">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-olive italic">"I've been coming here for years and have never been disappointed. The staff is professional, friendly, and truly skilled at what they do. Highly recommend!"</p>
+                    </div>
+                    <div class="bg-cream p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-stone flex items-center justify-center mr-4">
+                                <span class="text-mocha font-lucky-bones text-xl">A</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-olive">Amara Wilson</h4>
+                                <div class="flex text-mocha">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-olive italic">"Their facial treatments are incredible! My skin has never looked better. The products they use are high quality and the staff is knowledgeable about skincare."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-16 bg-teal text-cream">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-serif mb-6">Ready to Transform Your Look?</h2>
+                <p class="text-lg mb-8 max-w-2xl mx-auto">Book your appointment today and experience the luxury and expertise that our salon has to offer.</p>
+                <button class="bg-cream text-teal px-8 py-3 rounded hover:bg-sand transition-colors font-lucky-bones" onclick="showPage('booking')">Book Now</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Products Page -->
+    <div id="products" class="page">
+        <!-- Hero Section -->
+        <section class="bg-sand py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-serif text-teal mb-6">Our Services &amp; Products</h2>
+                <p class="text-olive text-lg mb-8 max-w-2xl mx-auto">Discover our full range of premium salon services and luxury hair and beauty products.</p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="py-16 bg-cream">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-serif text-teal text-center mb-12">Salon Services</h2>
+                
+                <!-- Hair Services -->
+                <div class="mb-16">
+                    <h3 class="text-3xl font-serif text-mocha mb-8 text-center">Hair Services</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Women's Haircut</h4>
+                                <span class="text-mocha font-medium">$45 - $75</span>
+                            </div>
+                            <p class="text-olive">Includes consultation, shampoo, conditioning treatment, precision cut, and style.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Men's Haircut</h4>
+                                <span class="text-mocha font-medium">$35 - $55</span>
+                            </div>
+                            <p class="text-olive">Includes consultation, shampoo, precision cut, and style.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Color &amp; Highlights</h4>
+                                <span class="text-mocha font-medium">$85 - $175</span>
+                            </div>
+                            <p class="text-olive">Full color, partial or full highlights, balayage, or ombre techniques.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Special Occasion Styling</h4>
+                                <span class="text-mocha font-medium">$65 - $95</span>
+                            </div>
+                            <p class="text-olive">Formal styling for weddings, proms, or special events.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Facial Treatments -->
+                <div class="mb-16">
+                    <h3 class="text-3xl font-serif text-mocha mb-8 text-center">Facial Treatments</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Classic Facial</h4>
+                                <span class="text-mocha font-medium">$65</span>
+                            </div>
+                            <p class="text-olive">Deep cleansing, exfoliation, mask, and moisturizing treatment.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Anti-Aging Facial</h4>
+                                <span class="text-mocha font-medium">$95</span>
+                            </div>
+                            <p class="text-olive">Targets fine lines and wrinkles with specialized serums and techniques.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Hydrating Facial</h4>
+                                <span class="text-mocha font-medium">$75</span>
+                            </div>
+                            <p class="text-olive">Intensive moisture treatment for dry or dehydrated skin.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Acne Treatment</h4>
+                                <span class="text-mocha font-medium">$85</span>
+                            </div>
+                            <p class="text-olive">Deep cleansing and treatment for problematic skin.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nail Services -->
+                <div>
+                    <h3 class="text-3xl font-serif text-mocha mb-8 text-center">Nail Services</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Classic Manicure</h4>
+                                <span class="text-mocha font-medium">$35</span>
+                            </div>
+                            <p class="text-olive">Nail shaping, cuticle care, hand massage, and polish.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Gel Manicure</h4>
+                                <span class="text-mocha font-medium">$45</span>
+                            </div>
+                            <p class="text-olive">Long-lasting gel polish application with classic manicure.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Luxury Pedicure</h4>
+                                <span class="text-mocha font-medium">$55</span>
+                            </div>
+                            <p class="text-olive">Foot soak, exfoliation, callus treatment, massage, and polish.</p>
+                        </div>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-xl font-serif text-olive">Nail Art</h4>
+                                <span class="text-mocha font-medium">$15+</span>
+                            </div>
+                            <p class="text-olive">Custom designs, gems, or special effects added to any service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="py-16 bg-taupe">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-serif text-teal text-center mb-12">Retail Products</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Hair Products -->
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="h-48 bg-stone flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif text-olive mb-4">Luxury Hair Care</h3>
+                        <ul class="text-olive space-y-2 mb-6">
+                            <li class="flex justify-between">
+                                <span>Hydrating Shampoo</span>
+                                <span class="text-mocha">$28</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Repair Conditioner</span>
+                                <span class="text-mocha">$30</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Styling Serum</span>
+                                <span class="text-mocha">$35</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Heat Protectant Spray</span>
+                                <span class="text-mocha">$25</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-mocha text-cream py-2 rounded hover:bg-opacity-90 transition-colors" onclick="addToCart('Hair Care Bundle', 118)">Add Bundle to Cart</button>
+                    </div>
+                    
+                    <!-- Skincare Products -->
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="h-48 bg-stone flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif text-olive mb-4">Premium Skincare</h3>
+                        <ul class="text-olive space-y-2 mb-6">
+                            <li class="flex justify-between">
+                                <span>Gentle Cleanser</span>
+                                <span class="text-mocha">$32</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Vitamin C Serum</span>
+                                <span class="text-mocha">$45</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Hydrating Moisturizer</span>
+                                <span class="text-mocha">$38</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Eye Cream</span>
+                                <span class="text-mocha">$40</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-mocha text-cream py-2 rounded hover:bg-opacity-90 transition-colors" onclick="addToCart('Skincare Bundle', 155)">Add Bundle to Cart</button>
+                    </div>
+                    
+                    <!-- Nail Products -->
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="h-48 bg-stone flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif text-olive mb-4">Nail Essentials</h3>
+                        <ul class="text-olive space-y-2 mb-6">
+                            <li class="flex justify-between">
+                                <span>Strengthening Base Coat</span>
+                                <span class="text-mocha">$18</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Long-Wear Polish (Various)</span>
+                                <span class="text-mocha">$15</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Quick-Dry Top Coat</span>
+                                <span class="text-mocha">$20</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Cuticle Oil</span>
+                                <span class="text-mocha">$16</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-mocha text-cream py-2 rounded hover:bg-opacity-90 transition-colors" onclick="addToCart('Nail Care Bundle', 69)">Add Bundle to Cart</button>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button class="bg-teal text-cream px-8 py-3 rounded hover:bg-opacity-90 transition-colors font-lucky-bones" onclick="showPage('booking')">Book a Service</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Booking Page -->
+    <div id="booking" class="page">
+        <!-- Hero Section -->
+        <section class="bg-sand py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-serif text-teal mb-6">Book Your Appointment</h2>
+                <p class="text-olive text-lg mb-8 max-w-2xl mx-auto">Select your preferred service, stylist, date, and time to schedule your salon experience.</p>
+            </div>
+        </section>
+
+        <!-- Booking Form -->
+        <section class="py-16 bg-cream">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="bg-sand p-8 rounded-lg shadow-md">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Left Column - Service Selection -->
+                        <div>
+                            <h3 class="text-2xl font-serif text-olive mb-6">1. Select Your Service</h3>
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-center">
+                                    <input type="radio" id="haircut" name="service" value="haircut" class="h-4 w-4 text-mocha focus:ring-mocha" checked="">
+                                    <label for="haircut" class="ml-2 text-olive">Haircut &amp; Style</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="color" name="service" value="color" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="color" class="ml-2 text-olive">Color Treatment</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="facial" name="service" value="facial" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="facial" class="ml-2 text-olive">Facial Treatment</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="manicure" name="service" value="manicure" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="manicure" class="ml-2 text-olive">Manicure/Pedicure</label>
+                                </div>
+                            </div>
+
+                            <h3 class="text-2xl font-serif text-olive mb-6">2. Choose Your Stylist</h3>
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-center">
+                                    <input type="radio" id="emma" name="stylist" value="emma" class="h-4 w-4 text-mocha focus:ring-mocha" checked="">
+                                    <label for="emma" class="ml-2 text-olive">Emma (Hair Specialist)</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="james" name="stylist" value="james" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="james" class="ml-2 text-olive">James (Color Expert)</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="sophia" name="stylist" value="sophia" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="sophia" class="ml-2 text-olive">Sophia (Esthetician)</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" id="olivia" name="stylist" value="olivia" class="h-4 w-4 text-mocha focus:ring-mocha">
+                                    <label for="olivia" class="ml-2 text-olive">Olivia (Nail Technician)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Date & Time Selection -->
+                        <div>
+                            <h3 class="text-2xl font-serif text-olive mb-6">3. Select Date &amp; Time</h3>
+                            
+                            <!-- Date Picker -->
+                            <div class="mb-6">
+                                <label for="date" class="block text-olive mb-2">Date:</label>
+                                <input type="date" id="date" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                            </div>
+                            
+                            <!-- Time Slots -->
+                            <div class="mb-8">
+                                <label class="block text-olive mb-2">Available Times:</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">9:00 AM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">10:00 AM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer booked">11:00 AM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">12:00 PM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">1:00 PM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer booked">2:00 PM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">3:00 PM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">4:00 PM</div>
+                                    <div class="time-slot border border-stone rounded p-2 text-center cursor-pointer" onclick="selectTimeSlot(this)">5:00 PM</div>
+                                </div>
+                            </div>
+
+                            <h3 class="text-2xl font-serif text-olive mb-6">4. Your Information</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-olive mb-2">Full Name:</label>
+                                    <input type="text" id="name" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-olive mb-2">Email:</label>
+                                    <input type="email" id="email" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                </div>
+                                <div>
+                                    <label for="phone" class="block text-olive mb-2">Phone:</label>
+                                    <input type="tel" id="phone" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center">
+                        <button class="bg-mocha text-cream px-8 py-3 rounded hover:bg-opacity-90 transition-colors" onclick="bookAppointment()">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Confirmation Modal -->
+        <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-cream p-8 rounded-lg shadow-lg max-w-md w-full">
+                <h3 class="text-2xl font-serif text-teal mb-4">Booking Confirmed!</h3>
+                <p class="text-olive mb-6">Your appointment has been scheduled. We've sent a confirmation to your email with all the details.</p>
+                <div class="bg-sand p-4 rounded mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-olive">Service:</span>
+                        <span id="confirmService" class="text-mocha font-medium">Haircut &amp; Style</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-olive">Stylist:</span>
+                        <span id="confirmStylist" class="text-mocha font-medium">Emma</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-olive">Date:</span>
+                        <span id="confirmDate" class="text-mocha font-medium">May 15, 2026</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-olive">Time:</span>
+                        <span id="confirmTime" class="text-mocha font-medium">10:00 AM</span>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button class="bg-teal text-cream px-6 py-2 rounded hover:bg-opacity-90 transition-colors" onclick="closeModal()">Close</button>
+                    <button class="border-2 border-mocha text-mocha px-6 py-2 rounded hover:bg-mocha hover:text-cream transition-colors" onclick="showPage('checkout')">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkout" class="page">
+        <!-- Hero Section -->
+        <section class="bg-sand py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-serif text-teal mb-6">Checkout</h2>
+                <p class="text-olive text-lg mb-8 max-w-2xl mx-auto">Review your appointment and complete your booking.</p>
+            </div>
+        </section>
+
+        <!-- Checkout Form -->
+        <section class="py-16 bg-cream">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Order Summary -->
+                    <div class="md:col-span-2">
+                        <h3 class="text-2xl font-serif text-olive mb-6">Order Summary</h3>
+                        
+                        <!-- Appointment Summary -->
+                        <div class="bg-sand p-6 rounded-lg shadow-md mb-6">
+                            <h4 class="text-xl font-serif text-mocha mb-4">Your Appointment</h4>
+                            <div class="space-y-3 mb-4">
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Service:</span>
+                                    <span id="checkoutService" class="text-olive font-medium">Haircut &amp; Style</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Stylist:</span>
+                                    <span id="checkoutStylist" class="text-olive font-medium">Emma</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Date:</span>
+                                    <span id="checkoutDate" class="text-olive font-medium">May 15, 2026</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Time:</span>
+                                    <span id="checkoutTime" class="text-olive font-medium">10:00 AM</span>
+                                </div>
+                                <div class="flex justify-between border-t border-stone pt-3">
+                                    <span class="text-olive font-medium">Service Fee:</span>
+                                    <span id="serviceFee" class="text-mocha font-medium">$45.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Products Summary -->
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <h4 class="text-xl font-serif text-mocha mb-4">Products in Cart</h4>
+                            <div id="cartItems" class="space-y-3 mb-4">
+                                <!-- Cart items will be added here dynamically -->
+                                <div class="text-olive text-center italic">No products added to cart.</div>
+                            </div>
+                            <div class="border-t border-stone pt-3">
+                                <div class="flex justify-between">
+                                    <span class="text-olive font-medium">Products Subtotal:</span>
+                                    <span id="productsTotal" class="text-mocha font-medium">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Summary -->
+                    <div>
+                        <h3 class="text-2xl font-serif text-olive mb-6">Payment</h3>
+                        <div class="bg-sand p-6 rounded-lg shadow-md">
+                            <div class="space-y-3 mb-6">
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Service Fee:</span>
+                                    <span id="summaryServiceFee" class="text-olive">$45.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Products:</span>
+                                    <span id="summaryProductsTotal" class="text-olive">$0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-olive">Tax:</span>
+                                    <span id="summaryTax" class="text-olive">$3.60</span>
+                                </div>
+                                <div class="flex justify-between border-t border-stone pt-3">
+                                    <span class="text-olive font-medium">Total:</span>
+                                    <span id="summaryTotal" class="text-mocha font-medium">$48.60</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <label for="cardName" class="block text-olive mb-2">Name on Card:</label>
+                                    <input type="text" id="cardName" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                </div>
+                                <div>
+                                    <label for="cardNumber" class="block text-olive mb-2">Card Number:</label>
+                                    <div class="relative">
+                                        <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                        <div class="absolute right-3 top-2 flex space-x-1">
+                                            <svg class="h-6 w-6 text-olive" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="expiry" class="block text-olive mb-2">Expiry Date:</label>
+                                        <input type="text" id="expiry" placeholder="MM/YY" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                    </div>
+                                    <div>
+                                        <label for="cvv" class="block text-olive mb-2">CVV:</label>
+                                        <input type="text" id="cvv" placeholder="XXX" class="w-full p-2 border border-stone rounded bg-cream focus:outline-none focus:ring-1 focus:ring-mocha">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full bg-mocha text-cream py-3 rounded hover:bg-opacity-90 transition-colors" onclick="completeCheckout()">Complete Booking</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkout Confirmation Modal -->
+        <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-cream p-8 rounded-lg shadow-lg max-w-md w-full">
+                <div class="text-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-mocha mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-serif text-teal mb-4 text-center">Thank You!</h3>
+                <p class="text-olive mb-6 text-center">Your booking is confirmed and payment has been processed. We look forward to seeing you soon!</p>
+                <div class="bg-sand p-4 rounded mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-olive">Confirmation #:</span>
+                        <span class="text-mocha font-medium">SRN-2026-5872</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-olive">Date:</span>
+                        <span id="finalDate" class="text-mocha font-medium">May 15, 2026</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-olive">Time:</span>
+                        <span id="finalTime" class="text-mocha font-medium">10:00 AM</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="bg-teal text-cream px-8 py-3 rounded hover:bg-opacity-90 transition-colors" onclick="closeCheckoutModal()">Return to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-teal text-cream py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-lucky-bones mb-4">Serene Salon</h3>
+                    <p class="mb-4">Luxury hair and beauty services in a tranquil environment.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-cream hover:text-sand transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-cream hover:text-sand transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-cream hover:text-sand transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-lucky-bones mb-4">Hours</h3>
+                    <ul class="space-y-2">
+                        <li>Monday - Friday: 9am - 7pm</li>
+                        <li>Saturday: 9am - 6pm</li>
+                        <li>Sunday: 10am - 4pm</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-lucky-bones mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li>123 Beauty Lane</li>
+                        <li>New York, NY 10001</li>
+                        <li>(555) 123-4567</li>
+                        <li>info@serenesalon.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-lucky-bones mb-4">Newsletter</h3>
+                    <p class="mb-4">Subscribe for updates, special offers, and beauty tips.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="p-2 rounded-l w-full text-olive focus:outline-none">
+                        <button class="bg-mocha text-cream px-4 py-2 rounded-r hover:bg-opacity-90 transition-colors">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-cream border-opacity-20 mt-8 pt-8 text-center">
+                <p>© 2026 Serene Salon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body></html>
